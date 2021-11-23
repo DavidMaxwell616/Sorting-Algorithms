@@ -1,0 +1,37 @@
+
+<!DOCTYPE html>
+<html lang='en' class=''>
+
+<head>
+
+  <meta charset='UTF-8'>
+  <title>Sorting Algorithms</title>
+
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  <script src="functions.js"></script>
+  </head>
+
+<body>
+  <div id="panel">
+  <div id="right">
+    <div id="caption">
+      Sorting algorithms
+    </div>
+    <div id="buttons">
+      <a class="button" id="btReset" onclick="reset()">Reset</a>
+      <a class="button" id="btBubble" onclick="bubble.sort(data)">Bubble sort</a>
+      <a class="button" id="btInser" onclick="insertionsort.sort(data)">insertionsort</a>
+      <a class="button" id="btHeap" onclick="heap.sort(data)">Heapsort</a>
+      <a class="button" id="btSelec" onclick="selectionsort.sort(data)">Selectionsort</a>
+      <a class="button" id="btQuick" onclick="quick.sort(data)">Quicksort</a>
+    </div>
+  </div>
+  <div id="left">
+    <table id="sortPanel"></table>
+  </div>
+</div>​
+  
+</body>
+
+</html>
