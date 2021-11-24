@@ -78,6 +78,10 @@ body {
     width: 590px;
     height: 190px;
     margin: 10px;
+    position: relative;
+    float: left;
+}
+.table {
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
     border-radius: 3px;
@@ -90,9 +94,9 @@ body {
     background: -o-linear-gradient(#444, #333);
     background: -ms-linear-gradient(#444, #333);
     background: linear-gradient(#444, #333);
-    position: relative;
-    float: left;
+ 
 }
+
 a:link, a:visited, a:active {
     text-decoration: none;
 }
