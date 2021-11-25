@@ -11,24 +11,19 @@ for (i=data.length-1; i>=0; --i) {
     var ridx = ~~( Math.random() * ( data.length ) );
     data.swap(i, ridx);
 }
-var tb = $("#sortPanel");
-tb.empty();
-var tr = $("<tr></tr>");
-for (i=0; i<data.length; ++i) {
-    tr.append("<td  id='b"+i+"'>" +
-              "<div class='cc' style='height: "+data[i]+"px;'>" +
-              "</div></td>");
-}
+var index = 1;
+    var tb = $("#Table"+index);
+    tb.empty();
+    var tr = $("<tr></tr>");
+    for (i=0; i<data.length; ++i) {
+        tr.append("<td  id='b"+i+"'>" +
+            "<div class='cc' style='height: "+data[i]+"px;'>" +
+            "</div></td>");
+    }
 tb.append(tr);
 resetted = true;
 }
 
-/*
-Random
-Reverse
-Few Unique
-Nearly Sorted
-*/
 var wrapFunction = function(fn, context, params) {
 return function() {
     fn.apply(context, params);
