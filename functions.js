@@ -1,28 +1,36 @@
 // Array to be sorted
-var data = new Array();
-var resetted = false;
 
+var resetted = false;
+var charts = [];
 // Generate array of rundom number and reset panel
 function reset() {
-for (i=0; i<50; ++i) {
-    data[i] = Math.floor(i*160/50);
-}
-for (i=data.length-1; i>=0; --i) {
-    var ridx = Math.floor( Math.random() * ( data.length ) );
-    data.swap(i, ridx);
-}
+
 for (let index = 1; index < 5; index++) {
+    var chart = {
+        id: index,
+        data: [],
+    };
+
 var tb = $("#Table"+index);
-    tb.empty();
-    var tr = $("<tr></tr>");
-    for (i=0; i<data.length; ++i) {
+
+for (i=0; i<50; ++i) {
+        chart.data.push(Math.floor(i*160/50));
+    }
+
+randomizeData(chart.data, index);
+  
+tb.empty();
+    
+var tr = $("<tr></tr>");
+for (i=0; i<chart.data.length; ++i) {
         tr.append("<td  id='b"+i+"'>" +
-            "<div class='cc' style='height: "+data[i]+"px;'>" +
+            "<div class='cc' style='height: "+chart.data[i]+"px;'>" +
             "</div></td>");
     }
 tb.append(tr);
 resetted = true;
 }
+charts.push(chart);
 }
 
 var wrapFunction = function(fn, context, params) {
@@ -32,6 +40,73 @@ return function() {
 }
 
 var funqueue = [];
+
+function randomizeData(data, index)
+{
+    switch (index) {
+        case 1:
+            for (i=data.length-1; i>=0; --i) {
+                var ridx = Math.floor( Math.random() * (data.length));
+                data.swap(i, ridx);
+                }
+             break;
+        case 2:
+            for (i=0; i<data.length;i++) {
+                var ridx = 156-Math.floor(i*160/50);
+                data[i] = ridx;
+            }
+            break;
+        case 3:
+            for (i=data.length-1; i>=0; --i) {
+                var ridx = Math.floor( Math.random() * (data.length));
+                data.swap(i, ridx);
+                }
+            break;
+        case 4:
+            for (i=data.length-1; i>=0; --i) {
+                var ridx = Math.floor(i*160/50);
+                data[i] = ridx;
+                }
+            break;
+        default:
+            break;
+    }
+}
+
+function bubbleSort()
+{
+charts.forEach(chart => {
+    bubble.sort(chart.data)
+});
+}
+
+function insertionSort()
+{
+charts.forEach(chart => {
+    insertionsort.sort(chart.data)
+});
+}
+
+function heapSort()
+{
+charts.forEach(chart => {
+    heap.sort(chart.data)  
+});
+}
+
+function selectionSort()
+{
+charts.forEach(chart => {
+    selectionsort.sort(chart.data)
+});
+}
+
+function quickSort()
+{
+charts.forEach(chart => {
+    quick.sort(chart.data)
+});
+}
 
 function swapS(a, b) {
 var ca = $("#b"+a).children("div");
@@ -259,4 +334,3 @@ sort: function (arr) {
 }
 }
 
-reset();
