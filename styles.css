@@ -14,9 +14,6 @@ body {
     line-height: 35px;
     margin-bottom: 10px;
 }
-table{
-    border: 1px solid black;
-}
 #table {
     width: 565px;
     height: 165px;
@@ -37,8 +34,6 @@ table{
     background: linear-gradient(#444, #333);
 }
 #td {
-    height: 165px;
-    width: 11px;
     overflow: hidden;
     display: inline-block;
     white-space: nowrap;
@@ -48,7 +43,6 @@ table{
 .cc {
     display: block;
     width: 5px;
-    position: absolute;
     bottom: 0px;
     background-color: #999;
     border-top: 4px solid #fff;
@@ -60,7 +54,6 @@ table{
     width: 5px;
     background-color: #F22613;
     margin: 0px;
-    position: absolute;
     bottom: 0px;
 }
 .ccH2 {
@@ -68,7 +61,6 @@ table{
     width: 5px;
     background-color: #F2B705;
     margin: 0px;
-    position: absolute;
     bottom: 0px;
 }
 #buttons {
@@ -109,7 +101,13 @@ a:hover {
 .reset {
     width: 267px;
 }
-
+table, th, td {
+     vertical-align: bottom;
+  }
+.td2
+  {
+    vertical-align: top;
+   }
 .disable {
     color: #999;
     border-top: 1px solid #bbb;

@@ -5,14 +5,14 @@ var resetted = false;
 // Generate array of rundom number and reset panel
 function reset() {
 for (i=0; i<50; ++i) {
-    data[i] = ~~(i*160/50);
+    data[i] = Math.floor(i*160/50);
 }
 for (i=data.length-1; i>=0; --i) {
-    var ridx = ~~( Math.random() * ( data.length ) );
+    var ridx = Math.floor( Math.random() * ( data.length ) );
     data.swap(i, ridx);
 }
-var index = 1;
-    var tb = $("#Table"+index);
+for (let index = 1; index < 5; index++) {
+var tb = $("#Table"+index);
     tb.empty();
     var tr = $("<tr></tr>");
     for (i=0; i<data.length; ++i) {
@@ -22,6 +22,7 @@ var index = 1;
     }
 tb.append(tr);
 resetted = true;
+}
 }
 
 var wrapFunction = function(fn, context, params) {
