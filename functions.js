@@ -1,14 +1,15 @@
-// Array to be sorted
-
-var resetted = false;
 var charts = [];
-// Generate array of rundom number and reset panel
+
 function reset() {
 
-for (let index = 1; index < 5; index++) {
+    charts = [];
+    
+    var index = 1;
+
     var chart = {
         id: index,
         data: [],
+        sorted: false,
     };
 
 var tb = $("#Table"+index);
@@ -28,8 +29,6 @@ for (i=0; i<chart.data.length; ++i) {
             "</div></td>");
     }
 tb.append(tr);
-resetted = true;
-}
 charts.push(chart);
 }
 
@@ -73,39 +72,55 @@ function randomizeData(data, index)
     }
 }
 
+function  setChartsSorted(){
+    charts.forEach(chart => {
+        chart.sorted=true;
+    });
+}
+
 function bubbleSort()
 {
-charts.forEach(chart => {
-    bubble.sort(chart.data)
-});
+    charts.forEach(chart => {
+    if(!chart.sorted)
+        bubble.sort(chart.data)
+ });
+ setChartsSorted();
 }
 
 function insertionSort()
 {
 charts.forEach(chart => {
-    insertionsort.sort(chart.data)
+    if(!chart.sorted)
+        insertionsort.sort(chart.data)
 });
+setChartsSorted();
 }
 
 function heapSort()
 {
 charts.forEach(chart => {
-    heap.sort(chart.data)  
+    if(!chart.sorted)
+        heap.sort(chart.data)  
 });
+setChartsSorted();
 }
 
 function selectionSort()
 {
 charts.forEach(chart => {
-    selectionsort.sort(chart.data)
+    if(!chart.sorted)
+        selectionsort.sort(chart.data)
 });
+setChartsSorted();
 }
 
 function quickSort()
 {
 charts.forEach(chart => {
-    quick.sort(chart.data)
+    if(!chart.sorted)
+        quick.sort(chart.data)
 });
+setChartsSorted();
 }
 
 function swapS(a, b) {
@@ -161,7 +176,6 @@ if (funqueue.length > 0) {
 } else {
     clearInterval(intQueue);
     $(".button").removeClass("disable");
-    resetted = false;
 }
 }
 //
@@ -201,6 +215,7 @@ sort: function(arr) {
         i = this.a.length;
         }
     }
+    this.sorted = true;
     return this.a;
 }
 }
