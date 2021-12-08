@@ -4,7 +4,7 @@ function reset() {
 
     charts = [];
     
-for (let index = 1; index < 4; index++) {
+for (let index = 1; index < 5; index++) {
 
     var chart = {
         id: index,
