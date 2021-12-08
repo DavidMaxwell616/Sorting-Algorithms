@@ -4,7 +4,7 @@ function reset() {
 
     charts = [];
     
-    var index = 1;
+for (let index = 1; index < 4; index++) {
 
     var chart = {
         id: index,
@@ -30,6 +30,7 @@ for (i=0; i<chart.data.length; ++i) {
     }
 tb.append(tr);
 charts.push(chart);
+}
 }
 
 var wrapFunction = function(fn, context, params) {
