@@ -31,6 +31,7 @@ for (i=0; i<chart.data.length; ++i) {
 tb.append(tr);
 charts.push(chart);
 }
+console.log(tb);
 }
 
 var wrapFunction = function(fn, context, params) {
@@ -81,10 +82,10 @@ function  setChartsSorted(){
 
 function bubbleSort()
 {
-    charts.forEach(chart => {
-    if(!chart.sorted)
-        bubble.sort(chart.data)
- });
+    //charts.forEach(chart => {
+    if(!charts[1].sorted)
+        bubble.sort(charts[1].data)
+ //});
  setChartsSorted();
 }
 
