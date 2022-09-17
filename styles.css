@@ -139,4 +139,16 @@ th {
 }
 a:hover.disable {
     color: #999;
-} ​
+}
+#sortTimes {
+    width: 100%;
+    font-family: 'Alfa Slab One', Arial;
+    font-weight: normal;
+    font-size: 16px;
+    color: #DDD;
+    text-align: center;
+    text-shadow: 0px 0px 5px #222;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    display: none;
+}

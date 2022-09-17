@@ -8,7 +8,9 @@ for (let index = 1; index < 5; index++) {
 
     var chart = {
         id: index,
+        offset: (index-1) * 50,
         data: [],
+        sortTime: null,
         sorted: false,
     };
 
@@ -24,14 +26,13 @@ tb.empty();
     
 var tr = $("<tr></tr>");
 for (i=0; i<chart.data.length; ++i) {
-        tr.append("<td  id='b"+i+"'>" +
+        tr.append("<td  id='b"+(Number(i)+Number(chart.offset))+"'>" +
             "<div class='cc' style='height: "+chart.data[i]+"px;'>" +
             "</div></td>");
     }
 tb.append(tr);
 charts.push(chart);
 }
-console.log(tb);
 }
 
 var wrapFunction = function(fn, context, params) {
@@ -65,9 +66,10 @@ function randomizeData(data, index)
             break;
         case 4:
             for (i=data.length-1; i>=0; --i) {
-                var ridx = Math.floor(i*160/50);
-                data[i] = ridx;
-                }
+                var ridx = Math.floor( Math.random() * (data.length));
+                if(Math.floor( Math.random() * 100)<15)
+                    data.swap(i, ridx);
+            }
             break;
         default:
             break;
@@ -75,25 +77,37 @@ function randomizeData(data, index)
 }
 
 function  setChartsSorted(){
+    var displaySort='';
     charts.forEach(chart => {
         chart.sorted=true;
+        displaySort+=chart.sortTime+'<br>';
     });
+    document.getElementById("sortTimes").innerHTML = displaySort;
+    document.getElementById("sortTimes").style.display = "block";
 }
 
 function bubbleSort()
 {
-    //charts.forEach(chart => {
-    if(!charts[1].sorted)
-        bubble.sort(charts[1].data)
- //});
+    charts.forEach(chart => {
+        var startDate = new Date();
+        if(!chart.sorted)
+            bubble.sort(chart.data, chart.offset)
+        var endDate   = new Date();
+        var timeDiff = endDate.getTime() - startDate.getTime();
+        chart.sortTime ='Bubble Sort: Table '+chart.id +' '+timeDiff +' millisecond(s)'; 
+ });
  setChartsSorted();
 }
 
 function insertionSort()
 {
 charts.forEach(chart => {
+    var startDate = new Date();
     if(!chart.sorted)
-        insertionsort.sort(chart.data)
+        insertionsort.sort(chart.data, chart.offset)
+        var endDate   = new Date();
+        var timeDiff = endDate.getTime() - startDate.getTime();
+        chart.sortTime ='Insertion Sort: Table '+chart.id +' '+timeDiff +' millisecond(s)'; 
 });
 setChartsSorted();
 }
@@ -101,8 +115,12 @@ setChartsSorted();
 function heapSort()
 {
 charts.forEach(chart => {
+    var startDate = new Date();
     if(!chart.sorted)
-        heap.sort(chart.data)  
+        heap.sort(chart.data, chart.offset)  
+    var endDate   = new Date();
+    var timeDiff = endDate.getTime() - startDate.getTime();
+    chart.sortTime ='Heap Sort: Table '+chart.id +' '+timeDiff +' millisecond(s)'; 
 });
 setChartsSorted();
 }
@@ -110,17 +128,25 @@ setChartsSorted();
 function selectionSort()
 {
 charts.forEach(chart => {
+    var startDate = new Date();
     if(!chart.sorted)
-        selectionsort.sort(chart.data)
-});
+        selectionsort.sort(chart.data, chart.offset)
+        var endDate   = new Date();
+        var timeDiff = endDate.getTime() - startDate.getTime();
+        chart.sortTime ='Selection Sort: Table '+chart.id +' '+timeDiff +' millisecond(s)'; 
+    });
 setChartsSorted();
 }
 
 function quickSort()
 {
 charts.forEach(chart => {
+    var startDate = new Date();
     if(!chart.sorted)
-        quick.sort(chart.data)
+        quick.sort(chart.data, chart.offset)
+        var endDate   = new Date();
+        var timeDiff = endDate.getTime() - startDate.getTime();
+        chart.sortTime ='Quick Sort: Table '+chart.id +' '+timeDiff +' millisecond(s)'; 
 });
 setChartsSorted();
 }
@@ -160,7 +186,9 @@ var ca = $("#b"+a).children("div");
 $("#b"+b).empty().append(ca);
 }
 
-function pushSwap(a, b) {
+function pushSwap(a, b, offset) {
+a = Number(a)+Number(offset);
+b = Number(b)+Number(offset);
 var fun1 = wrapFunction(swapS, this, [a, b]);
 var fun2 = wrapFunction(swapP, this, [a, b]);
 var fun3 = wrapFunction(swapU, this, [a, b]);
@@ -196,9 +224,9 @@ this[b] = t;
 //
 // Array extension for values swapping with display
 //
-Array.prototype.swapVerbose = function(a, b) {
-pushSwap(a, b);
-this.swap(a, b);
+Array.prototype.swapVerbose = function(a, b, offset) {
+pushSwap(a, b, offset);
+this.swap(a, b, offset);
 }
 
 //
@@ -206,14 +234,14 @@ this.swap(a, b);
 //
 var bubble = {
 a: null,
-sort: function(arr) {
+sort: function(arr, offset) {
     intQueue = setInterval(function(){runQueue()},0);
-    this.a = arr.slice();;
+    this.a = arr.slice();
     for (i = this.a.length; i > 0; i--)
     {
         if (this.a[i] < this.a[i-1])
         {
-        this.a.swapVerbose(i-1, i);
+        this.a.swapVerbose(i-1, i, offset);
         i = this.a.length;
         }
     }
@@ -227,16 +255,18 @@ sort: function(arr) {
 //
 var insertionsort = {
     a: null,
-    sort: function(arr) {
+    sort: function(arr, offset) {
         this.a = arr.slice();
         intQueue = setInterval(function(){runQueue()},0);
         var j, v;
         for (var i = 1; i < this.a.length; i++) {
             j = i;
+            i = Number(i)+Number(offset);
             funqueue.push(wrapFunction(swapS, this, [i, i]));
             funqueue.push(wrapFunction(push, this, [i]));
             v = this.a[i];
             while ((this.a[j-1] > v) && (j > 0)) {
+                j = Number(j)+Number(offset);
                 funqueue.push(wrapFunction(swapS, this, [j-1, j-1]));
                 funqueue.push(wrapFunction(moveP, this, [j-1, j]));
                 funqueue.push(wrapFunction(swapU, this, [j, j]));
@@ -256,7 +286,7 @@ var insertionsort = {
 //
 var selectionsort = {
 a: null,
-sort: function(arr) {
+sort: function(arr, offset) {
     this.a = arr.slice();
     intQueue = setInterval(function(){runQueue()},0);
     for (var i = 0; i < this.a.length; i++)
@@ -267,7 +297,7 @@ sort: function(arr) {
             if (this.a[j] < this.a[max])
                 max = j;
         }
-        this.a.swapVerbose(i, max);
+        this.a.swapVerbose(i, max, offset);
     }
 }
 }
@@ -277,14 +307,14 @@ sort: function(arr) {
 //
 var quick = {
 a: null,
-sort: function(arr) {
+sort: function(arr, offset) {
     intQueue = setInterval(function(){runQueue()},0);
 this.a = arr.slice();
-this.qsort(0, this.a.length -1);
+this.qsort(0, this.a.length -1, offset);
 return this.a;
 
 },
-part: function(p, r) {
+part: function(p, r, offset) {
 var v = this.a[p];
 var i = p;
 var j = r;
@@ -293,7 +323,7 @@ while (true) {
     while (this.a[i] < v) i++;
     if (i < j)
     {
-    this.a.swapVerbose(i, j);
+    this.a.swapVerbose(i, j, offset);
     i++;
     j--;
     } else { 
@@ -301,12 +331,12 @@ while (true) {
     }
 }
 },
-qsort: function(p, r) {
+qsort: function(p, r, offset) {
 if (p < r)
 {
-    var q = this.part(p, r);
-    this.qsort(p, q);
-    this.qsort(q+1, r);
+    var q = this.part(p, r, offset);
+    this.qsort(p, q, offset);
+    this.qsort(q+1, r, offset);
 }
 }
 }
@@ -317,7 +347,7 @@ if (p < r)
 var heap = {
 n: 0,
 a: null,
-shiftDown: function (l, i) {
+shiftDown: function (l, i, offset) {
     var k = i;
     var j = -1;
     while (j != k) {
@@ -328,25 +358,25 @@ shiftDown: function (l, i) {
             k = j2;
         if (j21 < l && this.a[j21] > this.a[k])
             k = j21;
-        this.a.swapVerbose(j, k);
+        this.a.swapVerbose(j, k, offset);
     }
 },
-sort: function (arr) {
+sort: function (arr, offset) {
     intQueue = setInterval(function(){runQueue()},0);
     this.a = arr.slice();
     this.n = this.a.length-1;
 
     // build heap
     for (var i = ~~(this.n/2); i >= 0; i--) {
-        this.shiftDown(this.n, i);
+        this.shiftDown(this.n, i, offset);
     }
     // sort heap
     for (var i = this.n; i > 0; i--) {
-        this.a.swapVerbose(0, i);
-        this.shiftDown(i-1, 0);
+        this.a.swapVerbose(0, i, offset);
+        this.shiftDown(i-1, 0, offset);
     }
     if (this.a[0] > this.a[1])
-        this.a.swapVerbose(0, 1);
+        this.a.swapVerbose(0, 1, offset);
     return this.a;
 }
 }
