@@ -3,7 +3,8 @@ var charts = [];
 function reset() {
 
     charts = [];
-    
+    document.getElementById("sortTimes").style.display = "none";
+
 for (let index = 1; index < 5; index++) {
 
     var chart = {
@@ -11,6 +12,7 @@ for (let index = 1; index < 5; index++) {
         offset: (index-1) * 50,
         data: [],
         sortTime: null,
+        sortType: null,
         sorted: false,
     };
 
@@ -80,7 +82,7 @@ function  setChartsSorted(){
     var displaySort='';
     charts.forEach(chart => {
         chart.sorted=true;
-        displaySort+=chart.sortTime+'<br>';
+        displaySort+=chart.sortTime + '<br>';
     });
     document.getElementById("sortTimes").innerHTML = displaySort;
     document.getElementById("sortTimes").style.display = "block";
@@ -89,51 +91,54 @@ function  setChartsSorted(){
 function bubbleSort()
 {
     charts.forEach(chart => {
+        chart.sortType = "Bubble";
         var startDate = new Date();
         if(!chart.sorted)
             bubble.sort(chart.data, chart.offset)
-        var endDate   = new Date();
-        var timeDiff = endDate.getTime() - startDate.getTime();
-        chart.sortTime ='Bubble Sort: Table '+chart.id +' '+timeDiff +' millisecond(s)'; 
- });
+            getSortTime(startDate,chart);
+        });
  setChartsSorted();
 }
 
 function insertionSort()
 {
 charts.forEach(chart => {
+    chart.sortType = "Insertion";
     var startDate = new Date();
     if(!chart.sorted)
         insertionsort.sort(chart.data, chart.offset)
-        var endDate   = new Date();
-        var timeDiff = endDate.getTime() - startDate.getTime();
-        chart.sortTime ='Insertion Sort: Table '+chart.id +' '+timeDiff +' millisecond(s)'; 
+    getSortTime(startDate,chart);
 });
 setChartsSorted();
+}
+
+function getSortTime(startDate,chart)
+{
+    var endDate   = new Date();
+    var timeDiff = endDate.getTime() - startDate.getTime();
+    chart.sortTime =chart.sortType+' Sort: Table '+chart.id +': '+timeDiff +' millisecond(s)'; 
 }
 
 function heapSort()
 {
 charts.forEach(chart => {
     var startDate = new Date();
+    chart.sortType = "Heap";
     if(!chart.sorted)
         heap.sort(chart.data, chart.offset)  
-    var endDate   = new Date();
-    var timeDiff = endDate.getTime() - startDate.getTime();
-    chart.sortTime ='Heap Sort: Table '+chart.id +' '+timeDiff +' millisecond(s)'; 
-});
+        getSortTime(startDate,chart);
+    });
 setChartsSorted();
 }
 
 function selectionSort()
 {
 charts.forEach(chart => {
+    chart.sortType = "Selection";
     var startDate = new Date();
     if(!chart.sorted)
         selectionsort.sort(chart.data, chart.offset)
-        var endDate   = new Date();
-        var timeDiff = endDate.getTime() - startDate.getTime();
-        chart.sortTime ='Selection Sort: Table '+chart.id +' '+timeDiff +' millisecond(s)'; 
+        getSortTime(startDate,chart);
     });
 setChartsSorted();
 }
@@ -141,6 +146,7 @@ setChartsSorted();
 function quickSort()
 {
 charts.forEach(chart => {
+    chart.sortType = "Quick";
     var startDate = new Date();
     if(!chart.sorted)
         quick.sort(chart.data, chart.offset)
